@@ -153,6 +153,7 @@ Este paso es crucial para que la app pueda comunicarse con la base de datos y la
     1.  **Implementar `agenda_medicamentos_screen`:** Conéctala con `MedicationProvider` (propiedad de Dev 6) para mostrar una lista de `MedicationCard`. Coordina con Dev 6 si necesitas algún ajuste en el provider.
     2.  **Construir `red_ayuda_screen`:** Crea una lista de contactos de emergencia que, al ser presionados, utilicen `PhoneLauncherUtil` para llamar.
     3.  **Ejemplo de Commit:**
+    
         ```bash
         git commit -m "feat(senior): implementar UI de agenda de medicamentos"
         ```

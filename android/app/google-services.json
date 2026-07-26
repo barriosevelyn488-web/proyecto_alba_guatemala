@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "523558182407",
+    "project_id": "alba-health-app",
+    "storage_bucket": "alba-health-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523558182407:android:95d8ef559d88f9477a54a2",
+        "android_client_info": {
+          "package_name": "com.alba.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSmO3lDpC8eraBOeqqZVzLzgnBlvywuuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523558182407:android:a3cf8661db76dadb7a54a2",
+        "android_client_info": {
+          "package_name": "com.alba.proyecto_alba_guatemala"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSmO3lDpC8eraBOeqqZVzLzgnBlvywuuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
