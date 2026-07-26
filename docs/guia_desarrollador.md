@@ -5,44 +5,117 @@ Este documento proporciona una guía paso a paso personalizada para cada uno de 
 ## ⚙️ Guía de Configuración y Ejecución Local (Para todos los desarrolladores)
 
 Sigue estos pasos en orden. **Cada desarrollador debe completar esta guía** para poder trabajar en el proyecto.
+Sigue estos pasos en orden. **Cada desarrollador debe completar esta guía** para poder trabajar en el proyecto. La primera sección es la más importante y solo se realiza una vez.
 
 ### Paso 1: Verificar Herramientas (Requisitos Previos)
+### **Paso 0: Configuración del Entorno en Windows (Realizar una sola vez)**
 
 Abre tu terminal y ejecuta estos comandos para asegurarte de que tienes las versiones correctas. Si alguno falla o la versión es inferior, instala o actualiza la herramienta correspondiente.
+Esta sección es fundamental para que tu computadora reconozca los comandos de Flutter, Dart y Firebase. Si omites estos pasos, verás errores como `El término 'flutter' no se reconoce...`.
 
 ```bash
 # Verifica Flutter y Dart
 flutter --version
+1.  **Instalar Herramientas Base:**
+    *   **Git:** Descarga e instala Git desde git-scm.com.
+    *   **Node.js:** Descarga e instala la versión LTS desde nodejs.org. Esto también instalará `npm`.
 
 # Verifica Git
 git --version
+2.  **Instalar Firebase CLI con NPM:**
+    Abre una nueva terminal (CMD o PowerShell) y ejecuta:
+    ```bash
+    npm install -g firebase-tools
+    ```
 
 # Verifica Firebase CLI (si falla, instálalo en el siguiente paso)
 firebase --version
 ```
+3.  **Descargar Flutter SDK:**
+    *   Ve a la página oficial de Flutter y descarga el archivo ZIP del SDK.
+    *   Crea una carpeta en una ubicación fácil de recordar, por ejemplo `C:\src`.
+    *   Descomprime el archivo ZIP dentro de `C:\src`. Deberías tener una ruta como `C:\src\flutter`.
 
 ### Paso 2: Clonar el Repositorio y Obtener Dependencias
+4.  **Configurar Variables de Entorno (¡Crucial!):**
+    Este es el paso más importante. Le dice a Windows dónde encontrar las herramientas que acabas de instalar de forma permanente.
 
 1.  **Clona el proyecto** desde el repositorio central de la organización.
+    *   En el buscador de Windows, escribe "variables de entorno" y selecciona "Editar las variables de entorno del sistema".
+    *   En la ventana que se abre, haz clic en el botón "Variables de entorno...".
+    *   En la sección "Variables de usuario", selecciona la variable `Path` y haz clic en "Editar...".
+    *   Haz clic en "Nuevo" y agrega las **dos** rutas siguientes, una por una. Esto es para que la terminal reconozca los comandos `flutter` y `flutterfire`:
+        *   `C:\src\flutter\bin` (o la ruta donde descomprimiste Flutter).
+        *   `C:\Users\<TU_USUARIO>\AppData\Local\Pub\Cache\bin` (reemplaza `<TU_USUARIO>` con tu nombre de usuario de Windows).
+    *   Haz clic en "Aceptar" en todas las ventanas para guardar los cambios.
+
+5.  **Verificar y Activar Herramientas CLI:**
+    *   **Cierra todas las terminales que tengas abiertas y abre una nueva.** Esto es necesario para que se apliquen los cambios en las variables de entorno.
+    *   Verifica que tu entorno esté listo con `flutter doctor`. Este comando analizará tu sistema y te dirá si falta algo (como Android Studio).
+        ```bash
+        flutter doctor
+        ```
+    *   Activa la CLI de FlutterFire, la herramienta para conectar Flutter con Firebase.
+        ```bash
+        dart pub global activate flutterfire_cli
+        ```
+
+6.  **comandos utiles:**
+    Abre una nueva terminal (CMD o PowerShell) y ejecuta:
+    ```bash
+     $env:Path += ";C:\src\flutter\bin"
+     flutter --version
+     dart pub global activate flutterfire_cli
+     flutterfire configure --project=alba-health-app
+     $env:Path += ";C:\Users\barri\AppData\Local\Pub\Cache\bin"
+     flutterfire configure --project=alba-health-app
+     com.alba.app
+     flutterfire configure --project=alba-health-app --output=lib/firebase_options.dart
+     flutter create . --org com.alba --project-name proyecto_alba_guatemala
+     start ms-settings:developers
+     flutter clean
+     flutter pub get
+     flutterfire configure --project=alba-health-app -o lib/firebase_options.dart
+
+    ```
+
+
+
+¡Felicidades! Tu entorno de desarrollo ya está configurado. Ahora puedes continuar con la configuración específica del proyecto.
+
+---
+### Paso 1: Clonar y Preparar el Proyecto
+
+1.  **Clona el proyecto** desde el repositorio central.
     ```bash
     git clone https://github.com/tu-organizacion/alba_health_app.git
+    git clone https://github.com/barriosevelyn488-web/proyecto_alba_guatemala.git
     ```
 
 2.  **Navega a la carpeta** del proyecto.
     ```bash
     cd alba_health_app
+    cd proyecto_alba_guatemala
     ```
 
 3.  **Instala todas las dependencias** de Flutter definidas en `pubspec.yaml`.
+3.  **Regenera la estructura del proyecto.** Después de clonar, es posible que falten las carpetas `android`, `ios`, etc. Este comando las creará sin sobreescribir tu código Dart. **Este paso es fundamental para evitar errores de "build.gradle not found"**.
+    ```bash
+    flutter create . --org com.alba --project-name proyecto_alba_guatemala
+    ```
+
+4.  **Instala todas las dependencias** de Flutter definidas en `pubspec.yaml`.
     ```bash
     flutter pub get
     ```
 
 ### Paso 3: Conectar tu Entorno Local con Firebase
+### Paso 2: Conectar tu Entorno Local con Firebase
 
 Este paso es crucial para que la app pueda comunicarse con la base de datos y la autenticación.
 
 1.  **Instala Firebase CLI** globalmente a través de npm (Node.js).
+1.  **Inicia sesión en Firebase** con tu cuenta de Google. Se abrirá una ventana en tu navegador.
     ```bash
     npm install -g firebase-tools
     ```
@@ -53,22 +126,28 @@ Este paso es crucial para que la app pueda comunicarse con la base de datos y la
     ```
 
 3.  **Configura el proyecto de Flutter** para que se conecte con el proyecto de Firebase de ALBA. Este comando leerá la configuración del proyecto central y generará tu archivo local `lib/firebase_options.dart`.
+2.  **Configura el proyecto de Flutter** para que se conecte con el proyecto de Firebase de ALBA. Este comando generará tu archivo local `lib/firebase_options.dart`.
     ```bash
-    flutterfire configure
+    flutterfire configure --project=alba-health-app
+    flutterfire configure --project=alba-health-app -o lib/firebase_options.dart
     ```
     *El sistema te pedirá que selecciones el proyecto de Firebase `alba-health-app` de una lista.*
 
 ### Paso 4: Ejecutar la Aplicación
+### Paso 3: Ejecutar la Aplicación
 
 1.  Asegúrate de tener un **emulador abierto** o un **dispositivo físico conectado**.
 
 2.  **Ejecuta la aplicación** en modo de depuración. Flutter detectará automáticamente el dispositivo disponible.
+2.  **Ejecuta la aplicación** en modo de depuración.
     ```bash
     flutter run
     ```
     ¡Listo! Ahora deberías ver la aplicación ALBA corriendo en tu dispositivo/emulador.
+    ¡Listo! Ahora deberías ver la aplicación ALBA corriendo.
 
 ### Paso 5: Flujo de Trabajo Diario (Git)
+### Paso 4: Flujo de Trabajo Diario (Git)
 
 1.  **Antes de empezar a programar**, asegúrate de tener la última versión de la rama `develop` y crea tu propia rama de funcionalidad.
     ```bash
