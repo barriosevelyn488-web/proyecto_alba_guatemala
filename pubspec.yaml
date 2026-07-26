@@ -1,0 +1,36 @@
+name: proyecto_alba_guatemala
+description: "Plataforma digital de doble interfaz para el cuidado de la salud de adultos mayores."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Gestión de Estado
+  provider: ^6.1.2
+
+  # Firebase y Base de Datos (Offline-First)
+  firebase_core: ^3.1.0
+  cloud_firestore: ^5.1.0
+  firebase_auth: ^5.1.0
+
+  # Hardware, Sensores y Utilidades Nativas
+  sensors_plus: ^6.0.0
+  flutter_background_service: ^5.0.6
+  flutter_local_notifications: ^17.2.2
+  url_launcher: ^6.3.0
+  mobile_scanner: ^5.1.1
+  qr_flutter: ^4.1.0
+  fl_chart: ^0.68.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
