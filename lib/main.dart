@@ -7,35 +7,34 @@ import 'package:proyecto_alba_guatemala/providers/doctor_provider.dart';
 import 'package:proyecto_alba_guatemala/providers/health_provider.dart';
 import 'package:proyecto_alba_guatemala/providers/medication_provider.dart';
 import 'package:proyecto_alba_guatemala/providers/sos_provider.dart';
-import 'package:proyecto_alba_guatemala/screens/auth/login_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/role_selection_screen.dart';
-import 'package:proyecto_alba_guatemala/screens/senior/inicio_senior_screen.dart';
+import 'package:proyecto_alba_guatemala/screens/adulto_mayor/inicio_senior_screen.dart';
 import 'package:proyecto_alba_guatemala/services/fall_detection_service.dart';
 
 // 1. Importa el archivo de opciones generado por FlutterFire
 import 'firebase_options.dart';
- 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- 
+
   // Inicialización de Firebase utilizando las opciones de la plataforma actual
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
- 
+
   // REGLA TÉCNICA 1: Habilitar la persistencia offline de Firestore
   FirebaseFirestore.instance.settings =
       const Settings(persistenceEnabled: true);
- 
+
   // REGLA TÉCNICA 2: Inicializar el servicio en segundo plano
   await initializeFallDetectionService();
- 
+
   runApp(const AlbaApp());
 }
- 
+
 class AlbaApp extends StatelessWidget {
   const AlbaApp({super.key});
- 
+
   @override
   Widget build(BuildContext context) {
     // REGLA TÉCNICA 3: Inyección de dependencias con carga diferida (comportamiento por defecto)
@@ -63,4 +62,3 @@ class AlbaApp extends StatelessWidget {
     );
   }
 }
-

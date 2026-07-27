@@ -28,11 +28,18 @@ class MedicationCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(medication.name, style: Theme.of(context).textTheme.headline6),
-                  const SizedBox(height: 4),
-                  Text('${medication.dosage} - ${medication.frequency}'),
+                  Text(medication.name,
+                      style: Theme.of(context).textTheme.titleLarge),
+                  const SizedBox(height: 6),
+                  Text('${medication.dosage} · ${medication.frequency}',
+                      style: Theme.of(context).textTheme.bodyMedium),
+                  const SizedBox(height: 6),
+                  Text(
+                      'Hora: ${medication.time.format(context)} · Stock: ${medication.stock}',
+                      style: Theme.of(context).textTheme.bodySmall),
                   const SizedBox(height: 8),
-                  Text(medication.instructions, style: const TextStyle(fontStyle: FontStyle.italic)),
+                  Text(medication.instructions,
+                      style: const TextStyle(fontStyle: FontStyle.italic)),
                 ],
               ),
             ),

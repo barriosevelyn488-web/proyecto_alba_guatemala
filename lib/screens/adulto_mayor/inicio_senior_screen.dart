@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_alba_guatemala/screens/senior/sos_activo_screen.dart';
+import 'package:proyecto_alba_guatemala/screens/adulto_mayor/sos_activo_screen.dart';
 import 'package:proyecto_alba_guatemala/widgets/emergency_sos_banner.dart';
 
 class InicioSeniorScreen extends StatelessWidget {

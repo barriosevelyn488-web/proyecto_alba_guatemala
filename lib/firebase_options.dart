@@ -52,28 +52,26 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDSmO3lDpC8eraBOeqqZVzLzgnBlvywuuM',
-    appId: '1:523558182407:android:a3cf8661db76dadb7a54a2',
+    appId: '1:523558182407:android:c267c767abd5a9b77a54a2',
     messagingSenderId: '523558182407',
     projectId: 'alba-health-app',
     storageBucket: 'alba-health-app.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAAzaNtq_tMvfRTnJWzk0Lb-7IpwtUwg5g',
-    appId: '1:523558182407:ios:ae2e55d1200bb5f47a54a2',
+    appId: '1:523558182407:ios:ccf3bae65981c2b87a54a2',
     messagingSenderId: '523558182407',
     projectId: 'alba-health-app',
     storageBucket: 'alba-health-app.firebasestorage.app',
-    iosBundleId: 'com.alba.proyectoAlbaGuatemala',
+    iosBundleId: 'com.example.proyectoAlbaGuatemala',
   );
-
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAAzaNtq_tMvfRTnJWzk0Lb-7IpwtUwg5g',
-    appId: '1:523558182407:ios:ae2e55d1200bb5f47a54a2',
+    appId: '1:523558182407:ios:ccf3bae65981c2b87a54a2',
     messagingSenderId: '523558182407',
     projectId: 'alba-health-app',
     storageBucket: 'alba-health-app.firebasestorage.app',
-    iosBundleId: 'com.alba.proyectoAlbaGuatemala',
+    iosBundleId: 'com.example.proyectoAlbaGuatemala',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

@@ -43,14 +43,13 @@ class NotificationService {
       title,
       body,
       _nextInstanceOfTime(hour, minute),
-      const NotificationDetails(
+      NotificationDetails(
         android: AndroidNotificationDetails(
           'alba_medication_channel',
           'Recordatorios de Medicación',
           channelDescription: 'Canal para las alarmas de medicamentos.',
           importance: Importance.max,
           priority: Priority.high,
-          sound: RawResourceAndroidSound('alarm'), // Asume un sonido 'alarm.mp3' en res/raw
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

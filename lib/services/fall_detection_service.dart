@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -19,9 +19,12 @@ void onStart(ServiceInstance service) {
     // Implica analizar el vector de fuerza (magnitud) y detectar un patrón de
     // caída libre seguido de un impacto fuerte y un período de inactividad.
     // Este es un placeholder muy simplificado.
-    double magnitude = (event.x * event.x + event.y * event.y + event.z * event.z) / (9.8 * 9.8);
+    double magnitude =
+        (event.x * event.x + event.y * event.y + event.z * event.z) /
+            (9.8 * 9.8);
 
-    if (magnitude > 3.0) { // Umbral de ejemplo para un impacto fuerte
+    if (magnitude > 3.0) {
+      // Umbral de ejemplo para un impacto fuerte
       print('FALL DETECTED (background): High G-force event!');
       // Aquí se podría invocar un método para notificar al usuario o a los contactos.
       // service.invoke('fallDetected', {'timestamp': DateTime.now().toIso8601String()});
@@ -31,6 +34,15 @@ void onStart(ServiceInstance service) {
 
 /// Inicializa y configura el servicio en segundo plano para la detección de caídas.
 Future<void> initializeFallDetectionService() async {
+  if (kIsWeb) {
+    return;
+  }
+
+  if (defaultTargetPlatform != TargetPlatform.android &&
+      defaultTargetPlatform != TargetPlatform.iOS) {
+    return;
+  }
+
   final service = FlutterBackgroundService();
 
   await service.configure(

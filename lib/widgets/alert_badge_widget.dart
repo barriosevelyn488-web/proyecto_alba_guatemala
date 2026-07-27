@@ -14,7 +14,7 @@ class AlertBadgeWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.criticalRed.withOpacity(0.1),
+        color: AppColors.criticalRed.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.criticalRed),
       ),
