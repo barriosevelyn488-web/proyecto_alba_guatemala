@@ -59,41 +59,80 @@ El proyecto sigue una arquitectura por capas basada en responsabilidad única:
 
 ```text
 
-├── android/                                # 🤖 Configuración Nativa de Android
-│   ├── app/
-│   │   ├── build.gradle
-│   │   └── src/main/AndroidManifest.xml
-│   └── build.gradle
+🌳 4. Estructura Detallada de Código Fuente (lib/)
+lib/
+├── main.dart                               # Configuración de Providers, Firestore Persistence y Rutas
 │
-├── ios/                                    # 🍎 Configuración Nativa de iOS
-│   └── Runner/
-│       └── Info.plist
+├── constants/                              # Constantes del sistema
+│   ├── app_colors.dart                     # Paleta WCAG AAA (#059669, #2563EB, #0F172A, #DC2626)
+│   ├── app_typography.dart                 # Tipografía Senior (22px-36px) y Clínica
+│   └── app_constants.dart                  # Claves API, parámetros de tiempo y PINs por defecto
 │
-├── docs/                                   # 📄 Documentación Interna del Proyecto
-│   ├── arquitectura_tecnica.md
-│   ├── distribucion_equipo_12_devs.md
-│   
-│ 
+├── models/                                 # Objetos de Datos (Data Models)
+│   ├── user_model.dart                     # Perfiles: Senior, Cuidador, Doctor
+│   ├── medication_model.dart               # Dosis, frecuencia, stock e indicaciones
+│   ├── health_record_model.dart            # Ficha médica (Alergias, O+, diagnósticos, citas)
+│   ├── guide_model.dart                    # Guías asignadas por el médico
+│   ├── appointment_model.dart              # Citas médica en la agenda del doctor
+│   └── sos_alert_model.dart                # Registro de emergencias con coordenadas GPS
 │
-├── lib/                                    # 💙 CÓDIGO FUENTE FLUTTER
-│   ├── main.dart
-│   ├── constants/
-│   ├── models/
-│   ├── services/
-│   ├── providers/
-│   ├── widgets/
-│   ├── screens/
-│   └── utils/
+├── services/                               # Servicios aislados por responsabilidad
+│   ├── firestore_service.dart              # Operaciones Firebase + Settings(persistenceEnabled: true)
+│   ├── notification_service.dart           # Programación local de alarmas para medicinas
+│   ├── sos_service.dart                    # Llamadas telefónicas directas y SMS GPS
+│   ├── fall_detection_service.dart         # Acelerómetro + Foreground Service (Background)
+│   └── patient_linking_service.dart        # Lógica de emparejamiento QR y PIN
 │
-├── .env.example
-├── .gitignore
-├── analysis_options.yaml
-├── firebase.json
-├── pubspec.yaml
-└── README.md
-```
+├── providers/                              # Estados globales con ChangeNotifier
+│   ├── auth_provider.dart                  # Sesión activa y rol
+│   ├── medication_provider.dart            # Registro de tomas y estado del botiquín
+│   ├── health_provider.dart                # Expediente del paciente y alergias
+│   ├── doctor_provider.dart                # Pacientes recientes, agenda y recetas emitidas
+│   └── sos_provider.dart                   # Temporizador y gestión de emergencias
+│
+├── widgets/                                # Componentes Reutilizables Accesibles
+│   ├── custom_button.dart                  # Botones táctiles accesibles (min 64px para Senior)
+│   ├── emergency_sos_banner.dart           # Botón rojo flotante ("¡PEDIR AYUDA / SOS!")
+│   ├── medication_card.dart                # Tarjeta de medicamento con estado de toma
+│   ├── adherence_chart_widget.dart         # Gráfico de cumplimiento (fl_chart)
+│   ├── alert_badge_widget.dart             # Banner de alerta crítica ("ALERGIA: Penicilina")
+│   ├── top_role_header.dart                # Selector superior de perfil de prueba
+│   └── bottom_nav_bar.dart                 # Barra de navegación adaptativa por perfil
+│
+├── screens/                                # Pantallas divididas por Perfil
+│   ├── auth/                               # Autenticación y Selección
+│   │   ├── role_selection_screen.dart
+│   │   └── login_screen.dart
+│   │
+│   ├── senior/                             # PERFIL ADULTO MAYOR
+│   │   ├── inicio_senior_screen.dart       # Dashboard diario
+│   │   ├── agenda_medicamentos_screen.dart # Alarma "YA ME LA TOMÉ"
+│   │   ├── ficha_medica_senior_screen.dart # Ficha simplificada de salud
+│   │   ├── guias_salud_screen.dart         # Guías asignadas por el doctor
+│   │   ├── red_ayuda_screen.dart           # Contactos con botón "LLAMAR AHORA"
+│   │   └── sos_activo_screen.dart          # Conteo regresivo y cancelación
+│   │
+│   ├── caregiver/                          # PERFIL CUIDADOR/A
+│   │   ├── dashboard_cuidador_screen.dart  # Monitor en tiempo real y semáforo
+│   │   ├── inventario_botiquin_screen.dart # Control de stock de fármacos
+│   │   ├── recetas_historial_screen.dart   # Historial y digitalización de recetas
+│   │   ├── generar_qr_screen.dart          # Código QR y PIN de vinculación
+│   │   └── configuracion_alertas_screen.dart
+│   │
+│   └── doctor/                             # PERFIL DOCTOR
+│       ├── dashboard_doctor_screen.dart    # Vista principal y pacientes recientes
+│       ├── escanear_qr_screen.dart         # Escáner QR y PIN
+│       ├── agenda_doctor_screen.dart       # Citas programadas
+│       ├── expediente_paciente_screen.dart # Historial clínico, gráfico y alertas
+│       ├── emitir_receta_screen.dart       # Prescripción digital de fármacos
+│       ├── crear_guia_screen.dart          # Creación de guías médicas
+│       └── vista_previa_guia_screen.dart   # Vista previa accesible
+│
+└── utils/                                  # Utilidades estáticas
+    ├── date_formatter.dart                 # Formato de fechas amigables
+    └── phone_launcher_util.dart            # Lanzador de llamadas y SMS
 
----
+
 
 ## 👥 Distribución del Equipo (12 Devs / 3 Grupos)
 
