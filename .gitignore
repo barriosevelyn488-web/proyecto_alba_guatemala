@@ -1,23 +1,24 @@
 # Miscellaneous
 *.class
 *.log
-*.lock
 *.pyc
 *.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-flycheck_*.
+*.DS_Store
+*.atom/
+*.buildlog
+*.sublime-project
+*.sublime-workspace
+*.tmLanguage.cache
+*.tmPreferences.cache
 
-# Flutter/Dart/Pub specific
-**/doc/api/
-**/ios/Flutter/App.framework
-**/ios/Flutter/Flutter.framework
-**/ios/Flutter/Flutter.podspec
-**/ios/Flutter/ephemeral/
-**/ios/ServiceAccount.json
+# IntelliJ
+.idea/
+*.iml
+
+# Visual Studio Code
+.vscode/
+
+# Flutter/Dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -26,18 +27,18 @@ flycheck_*.
 .pub/
 /build/
 
-# IDE specific
-.idea/
-.vscode/
-*.iml
-*.ipr
-*.iws
-.settings/
-.vscode-test/
+# Android
+android/app/src/main/assets/flutter_assets/
+android/app/src/main/res/drawable-hdpi/
+android/app/src/main/res/drawable-mdpi/
+android/app/src/main/res/drawable-xhdpi/
+android/app/src/main/res/drawable-xxhdpi/
+android/app/src/main/res/drawable-xxxhdpi/
 
-# Firebase
-/firebase-debug.log
-.firebase/
+# iOS
+ios/Flutter/App.framework
+ios/Flutter/engine.version
 
-# Gradle cache temporal
-android/app/.gradle/
+# Local configuration
+lib/firebase_options.dart
+*.env
