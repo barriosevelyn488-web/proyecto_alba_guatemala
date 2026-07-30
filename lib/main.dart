@@ -59,11 +59,7 @@ class AlbaApp extends StatelessWidget {
         initialRoute: '/role_selection',
         routes: {
           '/role_selection': (context) => const RoleSelectionScreen(),
-          '/login': (context) {
-            final args = ModalRoute.of(context)!.settings.arguments;
-            final role = args is UserRole ? args : UserRole.senior;
-            return LoginScreen(role: role);
-          },
+
           '/senior_home': (context) => const InicioSeniorScreen(),
           '/caregiver_home': (context) => const CaregiverHomeScreen(),
           '/doctor_home': (context) => const DoctorHomeScreen(),
@@ -72,4 +68,5 @@ class AlbaApp extends StatelessWidget {
     );
   }
 }
+
 
