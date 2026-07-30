@@ -4,16 +4,20 @@ import 'package:timezone/data/latest.dart' as tz;
 
 /// Servicio para gestionar notificaciones locales (alarmas de medicamentos).
 class NotificationService {
+  static final NotificationService _instance = NotificationService._internal();
+  factory NotificationService() => _instance;
+  NotificationService._internal();
+
   final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   /// Inicializa el servicio de notificaciones.
   Future<void> initialize() async {
     tz.initializeTimeZones();
+
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    // Configuración para iOS (solicitará permisos la primera vez)
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -50,7 +54,6 @@ class NotificationService {
           channelDescription: 'Canal para las alarmas de medicamentos.',
           importance: Importance.max,
           priority: Priority.high,
-          sound: RawResourceAndroidSound('alarm'), // Asume un sonido 'alarm.mp3' en res/raw
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

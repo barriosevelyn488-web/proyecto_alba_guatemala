@@ -1,64 +1,45 @@
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Servicio para manejar acciones de emergencia (SOS).
-/// Responsable de llamadas y envío de SMS con coordenadas GPS.
+/// Servicio para manejar la acción de emergencia (SOS).
 class SosService {
-  /// Realiza una llamada telefónica directa a un número de emergencia.
-  Future<void> makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
-    } else {
-      throw 'No se pudo llamar a $phoneNumber';
+  // TODO(equipo): reemplazar por el número real del cuidador vinculado
+  // una vez que patient_linking_service esté conectado a Firestore.
+  static const String numeroCuidadorVinculado = '12345678';
+
+  /// Acción que se ejecuta al presionar el botón "¡EMERGENCIA!":
+  /// 1. Simula el envío de una alerta urgente (log + aviso visible en pantalla).
+  /// 2. Activa el marcador telefónico hacia el cuidador vinculado.
+  Future<void> activarAlertaEmergencia(BuildContext context) async {
+    // 1. Simular el envío de la alerta urgente
+    debugPrint(
+        'SosService: Alerta de emergencia enviada al cuidador vinculado.');
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Alerta enviada. Abriendo llamada al cuidador...'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
+
+    // 2. Activar el marcador telefónico hacia el cuidador vinculado
+    await _llamarCuidador(numeroCuidadorVinculado);
   }
 
-  /// Envía un SMS con un mensaje y la ubicación GPS actual.
-  Future<void> sendSmsWithLocation(String phoneNumber, String message) async {
+  /// Abre la app de teléfono con el número del cuidador ya marcado.
+  Future<void> _llamarCuidador(String numeroTelefono) async {
+    final Uri uriLlamada = Uri(scheme: 'tel', path: numeroTelefono);
     try {
-      Position position = await _determinePosition();
-      final String fullMessage =
-          '$message. Mi ubicación: https://www.google.com/maps/search/?api=1&query=${position.latitude},${position.longitude}';
-      final Uri launchUri = Uri(
-          scheme: 'sms',
-          path: phoneNumber,
-          queryParameters: {'body': fullMessage});
-
-      if (await canLaunchUrl(launchUri)) {
-        await launchUrl(launchUri);
+      if (await canLaunchUrl(uriLlamada)) {
+        await launchUrl(uriLlamada);
       } else {
-        throw 'No se pudo enviar SMS a $phoneNumber';
+        debugPrint(
+            'SosService: No se pudo abrir el marcador para $numeroTelefono');
       }
     } catch (e) {
-      print('Error al enviar SMS con ubicación: $e');
-      // Considerar enviar el SMS sin ubicación como fallback
+      debugPrint('SosService: Error al intentar llamar -> $e');
     }
-  }
-
-  /// Obtiene la posición GPS actual del dispositivo.
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Los servicios de ubicación están deshabilitados.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Los permisos de ubicación fueron denegados.');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Los permisos de ubicación están permanentemente denegados.');
-    }
-
-    return await Geolocator.getCurrentPosition();
   }
 }
