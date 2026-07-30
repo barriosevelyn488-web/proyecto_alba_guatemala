@@ -10,6 +10,8 @@ import 'package:proyecto_alba_guatemala/providers/sos_provider.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/login_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/role_selection_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/senior/inicio_senior_screen.dart';
+import 'package:proyecto_alba_guatemala/screens/cuidador/dashboard_cuidador_screen.dart';
+import 'package:proyecto_alba_guatemala/screens/doctor/dashboard_doctor_screen.dart';
 import 'package:proyecto_alba_guatemala/services/fall_detection_service.dart';
 
 // 1. Importa el archivo de opciones generado por FlutterFire
@@ -36,6 +38,18 @@ Future<void> main() async {
 class AlbaApp extends StatelessWidget {
   const AlbaApp({super.key});
  
+  String _homeRouteForRole(UserRole? role) {
+    switch (role) {
+      case UserRole.caregiver:
+        return '/caregiver_dashboard';
+      case UserRole.doctor:
+        return '/doctor_dashboard';
+      case UserRole.senior:
+      default:
+        return '/senior_home';
+    }
+  }
+ 
   @override
   Widget build(BuildContext context) {
     // REGLA TÉCNICA 3: Inyección de dependencias con carga diferida (comportamiento por defecto)
@@ -47,17 +61,41 @@ class AlbaApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DoctorProvider()),
         ChangeNotifierProvider(create: (_) => SosProvider()),
       ],
-      child: MaterialApp(
-        title: 'ALBA App',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/role_selection',
-        routes: {
-          '/role_selection': (context) => const RoleSelectionScreen(),
-          // ... tus otras rutas ...
+      child: Consumer<AuthProvider>(
+        builder: (context, auth, child) {
+          return MaterialApp(
+            title: 'ALBA App',
+            theme: ThemeData(
+              primarySwatch: Colors.green,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            debugShowCheckedModeBanner: false,
+            initialRoute: auth.isAuthenticated ? _homeRouteForRole(auth.activeRole) : '/role_selection',
+            routes: {
+              '/role_selection': (context) => const RoleSelectionScreen(),
+              '/login': (context) {
+                final args = ModalRoute.of(context)!.settings.arguments;
+                final role = args is UserRole ? args : UserRole.senior;
+                return LoginScreen(role: role);
+              },
+              '/senior_home': (context) => const InicioSeniorScreen(),
+              '/caregiver_dashboard': (context) => const DashboardCuidadorScreen(),
+              '/doctor_dashboard': (context) => const DashboardDoctorScreen(),
+            },
+            onGenerateRoute: (settings) {
+              if (settings.name == '/login' || settings.name == '/role_selection') {
+                return null;
+              }
+
+              if (!auth.isAuthenticated) {
+                return MaterialPageRoute(
+                  builder: (_) => const RoleSelectionScreen(),
+                );
+              }
+
+              return null;
+            },
+          );
         },
       ),
     );

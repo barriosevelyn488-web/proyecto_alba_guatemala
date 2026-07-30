@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_alba_guatemala/models/user_model.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/login_screen.dart';
-import 'package:proyecto_alba_guatemala/widgets/custom_button.dart';
+import 'package:proyecto_alba_guatemala/widgets/custom_botton.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
 
   void _navigateToLogin(BuildContext context, UserRole role) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(
-        builder: (context) => LoginScreen(role: role),
-      ),
+      '/login',
+      arguments: role,
     );
   }
 

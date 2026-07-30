@@ -33,15 +33,21 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (mounted && authProvider.isAuthenticated) {
-        // Navegar a la pantalla principal correspondiente al rol
-        String homeRoute = '/senior_home'; // Ruta por defecto
-        if (widget.role == UserRole.caregiver) {
-          // homeRoute = '/caregiver_dashboard';
-        } else if (widget.role == UserRole.doctor) {
-          // homeRoute = '/doctor_dashboard';
-        }
+        final homeRoute = _homeRouteForRole(widget.role);
         Navigator.pushNamedAndRemoveUntil(context, homeRoute, (route) => false);
       }
+    }
+  }
+
+  String _homeRouteForRole(UserRole role) {
+    switch (role) {
+      case UserRole.caregiver:
+        return '/caregiver_dashboard';
+      case UserRole.doctor:
+        return '/doctor_dashboard';
+      case UserRole.senior:
+      default:
+        return '/senior_home';
     }
   }
 
