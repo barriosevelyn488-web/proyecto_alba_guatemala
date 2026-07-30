@@ -10,6 +10,8 @@ import 'package:proyecto_alba_guatemala/providers/sos_provider.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/login_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/role_selection_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/senior/inicio_senior_screen.dart';
+import 'package:proyecto_alba_guatemala/screens/caregiver/caregiver_home_screen.dart';
+import 'package:proyecto_alba_guatemala/screens/doctor/doctor_home_screen.dart';
 import 'package:proyecto_alba_guatemala/services/fall_detection_service.dart';
 
 // 1. Importa el archivo de opciones generado por FlutterFire
@@ -57,10 +59,14 @@ class AlbaApp extends StatelessWidget {
         initialRoute: '/role_selection',
         routes: {
           '/role_selection': (context) => const RoleSelectionScreen(),
-          // ... tus otras rutas ...
+          '/login': (context) => const LoginScreen(role: UserRole.senior),
+          '/senior_home': (context) => const InicioSeniorScreen(),
+          '/caregiver_home': (context) => const CaregiverHomeScreen(),
+          '/doctor_home': (context) => const DoctorHomeScreen(),
         },
       ),
     );
   }
 }
+
 
