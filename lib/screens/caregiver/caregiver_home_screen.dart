@@ -7,22 +7,7 @@ class CaregiverHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Panel Cuidador'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              auth.logout();
-              Navigator.pushReplacementNamed(context, '/role_selection');
-            },
-          )
-        ],
-      ),
-      body: const Center(
-        child: Text('Bienvenido, Cuidador'),
+
       ),
     );
   }

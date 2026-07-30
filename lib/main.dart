@@ -59,7 +59,7 @@ class AlbaApp extends StatelessWidget {
         initialRoute: '/role_selection',
         routes: {
           '/role_selection': (context) => const RoleSelectionScreen(),
-          '/login': (context) => const LoginScreen(role: UserRole.senior),
+
           '/senior_home': (context) => const InicioSeniorScreen(),
           '/caregiver_home': (context) => const CaregiverHomeScreen(),
           '/doctor_home': (context) => const DoctorHomeScreen(),

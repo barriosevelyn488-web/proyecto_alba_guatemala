@@ -7,11 +7,10 @@ class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
 
   void _navigateToLogin(BuildContext context, UserRole role) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(
-        builder: (context) => LoginScreen(role: role),
-      ),
+      '/login',
+      arguments: role,
     );
   }
 
