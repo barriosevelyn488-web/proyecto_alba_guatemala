@@ -47,13 +47,7 @@ class TopRoleHeader extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 6),
-                      Text(
-                        nombrePaciente,
-                        style: AppTypography.heading2.copyWith(
-                          color: Colors.white,
-                          fontSize: isCompact ? 22 : 24,
-                        ),
-                      ),
+
                       const SizedBox(height: 10),
                       Row(
                         children: [
@@ -88,12 +82,7 @@ class TopRoleHeader extends StatelessWidget {
                 const SizedBox(width: 16),
                 CircleAvatar(
                   radius: isCompact ? 28 : 32,
-                  backgroundColor: Colors.white.withOpacity(0.2),
-                  child: Icon(
-                    Icons.person,
-                    size: isCompact ? 28 : 34,
-                    color: Colors.white,
-                  ),
+
                 ),
               ],
             );
