@@ -9,6 +9,7 @@ import 'package:proyecto_alba_guatemala/providers/medication_provider.dart';
 import 'package:proyecto_alba_guatemala/providers/sos_provider.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/login_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/auth/role_selection_screen.dart';
+import 'package:proyecto_alba_guatemala/models/user_model.dart';
 import 'package:proyecto_alba_guatemala/screens/senior/inicio_senior_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/caregiver/caregiver_home_screen.dart';
 import 'package:proyecto_alba_guatemala/screens/doctor/doctor_home_screen.dart';
