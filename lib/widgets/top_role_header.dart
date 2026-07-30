@@ -1,42 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_alba_guatemala/models/user_model.dart';
+import 'package:proyecto_alba_guatemala/constants/app_colors.dart';
+import 'package:proyecto_alba_guatemala/constants/app_typography.dart';
 
 class TopRoleHeader extends StatelessWidget {
-  final UserRole activeRole;
-  final Function(UserRole) onRoleChanged;
-  final List<UserRole> availableRoles;
+  final String nombrePaciente;
+  final String estado;
+  final String ultimaToma;
 
   const TopRoleHeader({
     super.key,
-    required this.activeRole,
-    required this.onRoleChanged,
-    required this.availableRoles,
+    required this.nombrePaciente,
+    required this.estado,
+    required this.ultimaToma,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      color: Colors.grey[200],
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Viendo como: '),
-          DropdownButton<UserRole>(
-            value: activeRole,
-            onChanged: (UserRole? newValue) {
-              if (newValue != null) {
-                onRoleChanged(newValue);
-              }
-            },
-            items: availableRoles.map<DropdownMenuItem<UserRole>>((UserRole value) {
-              return DropdownMenuItem<UserRole>(
-                value: value,
-                child: Text(value.toString().split('.').last),
-              );
-            }).toList(),
-          ),
-        ],
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+      decoration: const BoxDecoration(
+        color: AppColors.secondaryBlue,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        ),
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isCompact = constraints.maxWidth < 360;
+
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'SUPERVISANDO A',
+                        style: AppTypography.caption.copyWith(
+                          color: Colors.white70,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF4ADE80),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            estado,
+                            style: AppTypography.bodyRegular.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Última toma confirmada: $ultimaToma',
+                        style: AppTypography.bodyRegular.copyWith(
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                CircleAvatar(
+                  radius: isCompact ? 28 : 32,
+
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

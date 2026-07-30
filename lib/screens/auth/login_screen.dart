@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Iniciar Sesión como ${widget.role.name}'),
@@ -98,6 +99,27 @@ class _LoginScreenState extends State<LoginScreen> {
     );
                         );
                 },
+              ),
+              const SizedBox(height: 24),
+              // Accesos rápidos para pruebas locales
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _loginAs(UserRole.doctor),
+                    child: const Text('Entrar como Doctor'),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _loginAs(UserRole.caregiver),
+                    child: const Text('Entrar como Cuidador/a'),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _loginAs(UserRole.senior),
+                    child: const Text('Entrar como Abuelito'),
+                  ),
+                ],
               ),
             ],
           ),
