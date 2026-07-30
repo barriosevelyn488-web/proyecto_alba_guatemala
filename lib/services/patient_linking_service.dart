@@ -1,33 +1,67 @@
-/// Servicio para manejar la lógica de vinculación entre pacientes, cuidadores y doctores.
+import 'dart:async';
+import 'dart:math';
+
+/// Servicio para manejar la vinculación entre pacientes,
+/// cuidadores y doctores.
 class PatientLinkingService {
-  /// Genera un código QR y un PIN para que un cuidador o doctor se vincule.
-  Future<Map<String, String>> generateLinkingCode(String patientId) async {
-    // En una implementación real, esto crearía un documento temporal en Firestore
-    // con el patientId, un PIN aleatorio y una fecha de expiración.
-    print('PatientLinkingService: Generating QR/PIN for patient $patientId.');
+  static const String _prefijo = "ALBA";
+
+  /// Genera un QR y un PIN para vincular un paciente.
+  Future<Map<String, dynamic>> generateLinkingCode(
+    String patientId,
+  ) async {
     await Future.delayed(const Duration(seconds: 1));
+
+    final pin = _generatePin();
+
     return {
-      'qrData': 'alba-link-patient-$patientId',
-      'pin': '5678', // PIN generado aleatoriamente
+      "patientId": patientId,
+      "qrData": "alba://link/$patientId/$pin",
+      "pin": pin,
+      "createdAt": DateTime.now(),
+      "expiresAt": DateTime.now().add(
+        const Duration(minutes: 10),
+      ),
     };
   }
 
-  /// Valida el código QR y el PIN para completar la vinculación.
-  Future<bool> validateAndLink(
-      String qrData, String pin, String professionalId) async {
-    // Lógica para buscar el documento temporal en Firestore usando `qrData`.
-    // Validar que el PIN coincida y que no haya expirado.
-    // Si es válido, crear la asociación permanente entre el paciente y el profesional.
-    // Finalmente, eliminar el documento temporal.
-    print(
-        'PatientLinkingService: Validating QR data and PIN for professional $professionalId.');
+  /// Valida un código manual.
+  Future<bool> validateAccessCode(
+    String accessCode,
+  ) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    return accessCode.startsWith("$_prefijo-");
+  }
+
+  /// Simula la vinculación.
+  Future<bool> validateAndLink({
+    required String qrData,
+    required String pin,
+    required String professionalId,
+  }) async {
     await Future.delayed(const Duration(seconds: 1));
-    if (qrData.contains('alba-link-patient') && pin == '5678') {
-      print('PatientLinkingService: Linking successful.');
+
+    if (pin.startsWith("$_prefijo-")) {
+      print("Paciente vinculado con éxito");
+      print("Profesional: $professionalId");
+      print("QR: $qrData");
+
       return true;
-    } else {
-      print('PatientLinkingService: Linking failed.');
-      return false;
     }
+
+    print("Código inválido");
+
+    return false;
+  }
+
+  /// Genera un PIN tipo ALBA-5678
+  String _generatePin() {
+    final random = Random();
+
+    final numero = 1000 + random.nextInt(9000);
+
+    return "$_prefijo-$numero";
   }
 }
+),
