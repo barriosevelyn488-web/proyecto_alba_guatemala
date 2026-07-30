@@ -34,14 +34,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted && authProvider.isAuthenticated) {
         // Navegar a la pantalla principal correspondiente al rol
-        String homeRoute = '/senior_home'; // Ruta por defecto
-        if (widget.role == UserRole.caregiver) {
-          // homeRoute = '/caregiver_dashboard';
-        } else if (widget.role == UserRole.doctor) {
-          // homeRoute = '/doctor_dashboard';
-        }
+        final homeRoute = _homeRouteForRole(widget.role);
         Navigator.pushNamedAndRemoveUntil(context, homeRoute, (route) => false);
       }
+    }
+  }
+
+  Future<void> _loginAs(UserRole role) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    await authProvider.loginAsRole(role);
+    if (mounted && authProvider.isAuthenticated) {
+      final homeRoute = _homeRouteForRole(role);
+      Navigator.pushNamedAndRemoveUntil(context, homeRoute, (route) => false);
+    }
+  }
+
+  String _homeRouteForRole(UserRole role) {
+    switch (role) {
+      case UserRole.caregiver:
+        return '/caregiver_home';
+      case UserRole.doctor:
+        return '/doctor_home';
+      case UserRole.senior:
+      default:
+        return '/senior_home';
     }
   }
 
@@ -87,6 +103,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text('Ingresar'),
                         );
                 },
+              ),
+              const SizedBox(height: 24),
+              // Accesos rápidos para pruebas locales
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _loginAs(UserRole.doctor),
+                    child: const Text('Entrar como Doctor'),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _loginAs(UserRole.caregiver),
+                    child: const Text('Entrar como Cuidador/a'),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _loginAs(UserRole.senior),
+                    child: const Text('Entrar como Abuelito'),
+                  ),
+                ],
               ),
             ],
           ),

@@ -31,10 +31,6 @@ class TopRoleHeader extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isCompact = constraints.maxWidth < 360;
-            final titleStyle = AppTypography.heading2.copyWith(
-              color: Colors.white,
-              fontSize: isCompact ? 22 : 24,
-            );
 
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +47,7 @@ class TopRoleHeader extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 6),
-                      Text(nombrePaciente, style: titleStyle),
+
                       const SizedBox(height: 10),
                       Row(
                         children: [
@@ -86,8 +82,7 @@ class TopRoleHeader extends StatelessWidget {
                 const SizedBox(width: 16),
                 CircleAvatar(
                   radius: isCompact ? 28 : 32,
-                  backgroundColor: Colors.white.withValues(alpha: 0.2),
-                  child: const Icon(Icons.person, color: Colors.white),
+
                 ),
               ],
             );
