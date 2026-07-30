@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:proyecto_alba_guatemala/constants/app_colors.dart';
-import 'package:proyecto_alba_guatemala/providers/sos_provider.dart';
 import 'package:proyecto_alba_guatemala/services/sos_service.dart';
 
 class SosActivoScreen extends StatefulWidget {
@@ -12,33 +10,16 @@ class SosActivoScreen extends StatefulWidget {
 }
 
 class _SosActivoScreenState extends State<SosActivoScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final sosProvider = Provider.of<SosProvider>(context, listen: false);
-      sosProvider.startSosCountdown(() {
-        _triggerSosActions();
-      });
+  bool _alertaEnviada = false;
+
+  void _triggerSosActions() async {
+    setState(() {
+      _alertaEnviada = true;
     });
-  }
 
-  void _triggerSosActions() {
-    if (!mounted) return;
-    print("¡ACCIÓN SOS! Enviando alertas...");
     final sosService = SosService();
-    // Reemplazar con números de emergencia reales de la configuración del usuario
-    sosService.makePhoneCall('123');
-    sosService.sendSmsWithLocation('123', '¡ALERTA DE EMERGENCIA!');
-
-    if (mounted) {
-      Navigator.of(context).pop();
-    }
-  }
-
-  void _cancel() {
-    Provider.of<SosProvider>(context, listen: false).cancelSos();
-    Navigator.of(context).pop();
+    await sosService.makePhoneCall('123');
+    await sosService.sendSmsWithLocation('123', '¡ALERTA DE EMERGENCIA!');
   }
 
   @override
@@ -46,48 +27,48 @@ class _SosActivoScreenState extends State<SosActivoScreen> {
     return Scaffold(
       backgroundColor: AppColors.criticalRed,
       body: SafeArea(
-        child: Consumer<SosProvider>(
-          builder: (context, sosProvider, child) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Icon(Icons.warning_amber_rounded, color: Colors.white, size: 120),
-                const SizedBox(height: 20),
-                const Text(
-                  'ALERTA DE EMERGENCIA ACTIVADA',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 40),
-                const Text(
-                  'Enviando alerta en...',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                Text(
-                  '${sosProvider.countdown}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 96, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 40),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: ElevatedButton(
-                    onPressed: _cancel,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: AppColors.criticalRed,
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                    ),
-                    child: const Text('CANCELAR', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Icon(Icons.warning_amber_rounded, color: Colors.white, size: 120),
+              const SizedBox(height: 20),
+              Text(
+                _alertaEnviada
+                    ? 'ALERTA ENVIADA AL CUIDADOR'
+                    : 'TOCA EL BOTÓN SI NECESITAS AYUDA',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 60),
+              SizedBox(
+                height: 220,
+                child: ElevatedButton(
+                  onPressed: _alertaEnviada ? null : _triggerSosActions,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.criticalRed,
+                    shape: const CircleBorder(),
+                  ),
+                  child: const Text(
+                    '¡EMERGENCIA!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
                 ),
-              ],
-            );
-          },
+              ),
+              const SizedBox(height: 60),
+              if (!_alertaEnviada)
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Volver', style: TextStyle(color: Colors.white, fontSize: 18)),
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
-}
+} 
