@@ -20,6 +20,7 @@ dependencies:
 
   # Hardware, Sensores y Utilidades Nativas
   sensors_plus: ^6.0.0
+  geolocator: ^13.0.1
   flutter_background_service: ^5.0.6
   flutter_local_notifications: ^17.2.2
   url_launcher: ^6.3.0

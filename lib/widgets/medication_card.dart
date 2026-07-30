@@ -28,11 +28,29 @@ class MedicationCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(medication.name, style: Theme.of(context).textTheme.headline6),
+                  Text(
+                    medication.name,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                   const SizedBox(height: 4),
                   Text('${medication.dosage} - ${medication.frequency}'),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Disponibles: ${medication.stock} pastillas',
+                    style: TextStyle(
+                      color: medication.stock <= 5
+                          ? Colors.orange.shade800
+                          : Colors.grey.shade700,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  Text(medication.instructions, style: const TextStyle(fontStyle: FontStyle.italic)),
+                  Text(
+                    medication.instructions,
+                    style: const TextStyle(fontStyle: FontStyle.italic),
+                  ),
                 ],
               ),
             ),
